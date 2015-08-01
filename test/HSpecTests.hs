@@ -12,5 +12,10 @@ main = hspec $ do
 
   describe "Eval +++." $ do
     it "should work" $ do
-      r <- BF.eval "+++." [] $ replicate 100 0
+      r <- BF.eval "+++." [] [] $ replicate 100 0
+      r `shouldBe` ()
+
+  describe "Eval +++[.-]" $ do
+    it "should print 3 2 1" $ do
+      r <- BF.eval "+++[.-]" [] [] $ replicate 100 0
       r `shouldBe` ()

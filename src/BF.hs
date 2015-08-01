@@ -9,42 +9,56 @@ module BF where
 --  [   - while (*ptr) {
 --  ]   - }
 
-exec :: Char -> [Int] -> [Int] -> IO ([Int], [Int])
+exec :: String -> [String] -> [Int] -> [Int] -> IO (String, [String], [Int], [Int])
 
-exec '+' memLeft memRight = do
+exec ('+':rest) stack memLeft memRight = do
     let e:es = memRight
-    return (memLeft, (e+1):es)
+    return (rest, stack, memLeft, (e+1):es)
 
-exec '-' memLeft memRight = do
+exec ('-':rest) stack memLeft memRight = do
     let e:es = memRight
-    return (memLeft, (e-1):es)
+    return (rest, stack, memLeft, (e-1):es)
 
-exec '>' memLeft memRight = do
+exec ('>':rest) stack memLeft memRight = do
     let e:es = memRight
-    return (e:memLeft, es)
+    return (rest, stack, e:memLeft, es)
 
-exec '<' memLeft memRight = do
+exec ('<':rest) stack memLeft memRight = do
     let e:es = memLeft
-    return (es, e:memRight)
+    return (rest, stack, es, e:memRight)
 
-exec '.' memLeft memRight = do
+exec ('.':rest) stack memLeft memRight = do
     print $ head memRight
     --putChar $ Chr $ head memRight
-    return (memLeft, memRight)
+    return (rest, stack, memLeft, memRight)
 
-exec ',' memLeft memRight = do 
+exec (',':rest) stack memLeft memRight = do 
     num_str <- getLine
     let num = read num_str :: Int
     --print num
     let e:es = memRight
-    return (memLeft, num:es)
+    return (rest, stack, memLeft, num:es)
+
+exec ('[':rest) stack memLeft memRight
+    | cur == 0 = do
+        return (tail (dropWhile (/=']') rest), rest:stack, memLeft, memRight)
+    | cur /= 0 = 
+        return (rest, rest:stack, memLeft, memRight)
+    where cur = head memRight
+
+exec (']':rest) stack memLeft memRight
+    | cur == 0 = do
+        return (rest, tail stack, memLeft, memRight)
+    | cur /= 0 = 
+        return (head stack, stack, memLeft, memRight)
+    where cur = head memRight
 
 
-eval :: String -> [Int] -> [Int] -> IO ()
+eval :: String -> [String] -> [Int] -> [Int] -> IO ()
 
-eval [] _ _ = return ()
+eval [] _ _ _ = return ()
 
-eval (x:xs) memLeft memRight = do
+eval expr stack memLeft memRight = do
     --print x
-    (memLeft, memRight) <- exec x memLeft memRight
-    eval xs memLeft memRight
+    (expr, stack, memLeft, memRight) <- exec expr stack memLeft memRight
+    eval expr stack memLeft memRight

@@ -15,4 +15,4 @@ main = do
     --(memLeft, memRight) <- exec ',' memLeft memRight
     --print (memLeft, memRight)
     input <- getLine
-    BF.eval input memLeft memRight
+    BF.eval input [] memLeft memRight
