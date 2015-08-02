@@ -6,16 +6,15 @@ import Test.Hspec
 main :: IO ()
 main = hspec $ do
  
-  --describe "Validate haqify function" $ do
-  --  it "haqify is supposed to prefix Haq! to things" $ do
-  --    haqify "me" `shouldBe` "Haq! me"
+  describe "Check simple cases" $ do
+    it "returns 3" $ do
+      BF.pureEval "+++++++++++++++++++++++++++++++++++++++++++++++++++." [] `shouldBe` "3"
 
-  describe "Eval +++." $ do
-    it "should work" $ do
-      r <- BF.eval "+++." [] [] $ replicate 100 0
-      r `shouldBe` ()
+    it "returns 321" $ do
+      BF.pureEval "+++++++++++++++++++++++++++++++++++++++++++++++++++>+++[<.->-]" [] `shouldBe` "321"
 
-  describe "Eval +++[.-]" $ do
-    it "should print 3 2 1" $ do
-      r <- BF.eval "+++[.-]" [] [] $ replicate 100 0
-      r `shouldBe` ()
+    it "returns Hello World!" $ do
+      BF.pureEval "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++." [] `shouldBe` "Hello World!\n"
+
+    it "cats input" $ do
+      BF.pureEval ",[.,]" "should copy this\0" `shouldBe` "should copy this"

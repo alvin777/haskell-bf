@@ -1,18 +1,10 @@
 module Main where
 
+import System.Environment   
+
 import qualified BF
 
-
-
 main = do
-    let memLeft = [] 
-    --let mem = replicate 100 0
-    let memRight = take 100 [1,2..]
+    args <- getArgs
 
-    --(memLeft, memRight) <- exec '.' memLeft memRight
-    --print (memLeft, memRight)
-    
-    --(memLeft, memRight) <- exec ',' memLeft memRight
-    --print (memLeft, memRight)
-    input <- getLine
-    BF.eval input [] memLeft memRight
+    BF.eval $ head args
