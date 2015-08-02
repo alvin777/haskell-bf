@@ -1,6 +1,8 @@
 # haskell-bf
 Brainfuck interpreter written in Haskell
 
+# Description
+
 Brainfuck is a minimalistic esoteric programming language (https://en.wikipedia.org/wiki/Brainfuck).
 
 Instruction set:
@@ -27,7 +29,7 @@ Example:
 cabal run -- "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
 ```
 
-Outputs "Hello World!"
+Prints "Hello World!"
 
 # Test
 To launch test suite run `cabal test`
